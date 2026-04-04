@@ -1,0 +1,12 @@
+Pregunta #1:
+Enunciado del Problema: Predicción de Estado Crítico en Sistemas de Bombeo
+Contexto: En una planta de procesamiento de fluidos, se monitorea constantemente una bomba centrífuga para evitar el fenómeno de cavitación, el cual puede destruir los componentes internos del equipo. Se han recolectado datos operativos que incluyen el flujo volumétrico, la presión de succión, la temperatura del fluido y la potencia consumida.
+Tu Misión: Debes desarrollar una función en Python llamada analizar_estado_bomba que reciba un conjunto de datos históricos (para entrenamiento) y un registro nuevo (caso de uso), y determine si el equipo se encuentra en un estado "Operativo" o "Crítico".
+Requerimientos de la función:
+1.	Entrada: * df_entrenamiento: Un DataFrame de pandas con las columnas ['flujo_m3h', 'presion_bar', 'temp_c', 'potencia_kw'] y una columna objetivo estado (0 para Operativo, 1 para Crítico).
+o	datos_nuevos: Una lista o array con los valores [flujo_m3h, presion_bar, temp_c, potencia_kw] que se desean evaluar.
+2.	Procesamiento:
+o	Escalar las características utilizando StandardScaler.
+o	Entrenar un modelo de clasificación (ej. RandomForestClassifier).
+o	Predecir la clase del nuevo registro.
+3.	Salida: Un diccionario con la predicción (texto) y la probabilidad de que el estado sea crítico.
