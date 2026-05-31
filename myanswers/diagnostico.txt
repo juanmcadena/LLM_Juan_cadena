@@ -1,0 +1,66 @@
+Se realizó una comparacion entre el resultado generado por el generador de caso de uso y la función generada para resolver el problema y los resultados simpre son los mismos.
+Se implementó el codigo de comparación: 
+
+if __name__ == "__main__":
+
+    # ── Test 1: caso de uso aleatorio ────────────────────────────────────────
+    print("\n" + "═" * 65)
+    print("  TEST 1 — CASO DE USO ALEATORIO")
+    print("═" * 65)
+
+    caso_input, caso_output = generar_caso_de_uso_rankear_clientes_ventana_movil()
+    resultado = rankear_clientes_ventana_movil(**caso_input)
+
+    cc = caso_input['cliente_col']
+    fc = caso_input['fecha_col']
+
+    comp = caso_output.rename(columns={cc: 'esp_cliente', 'suma_movil': 'esp_suma'}).copy()
+    comp['obt_cliente'] = resultado[cc].values
+    comp['obt_suma']    = resultado['suma_movil'].values
+    comp['ok']          = ((comp['esp_cliente'] == comp['obt_cliente']) &
+                           np.isclose(comp['esp_suma'], comp['obt_suma']))
+
+    print(f"  ventana={caso_input['ventana']}  |  filas entrada={len(caso_input['df'])}  |  fechas resultado={len(resultado)}")
+    print("\n  Primeras 10 fechas:")
+    print(comp[[fc, 'esp_cliente', 'obt_cliente', 'esp_suma', 'obt_suma', 'ok']]
+          .head(10).to_string(index=False))
+    todo_ok = comp['ok'].all()
+    print(f"\n  ✓ Resultado idéntico al esperado: {todo_ok}")
+    print("═" * 65)
+print(resultado)
+
+Aqui se muestra el resultado de una ejecución:
+
+
+═════════════════════════════════════════════════════════════════
+  TEST 1 — CASO DE USO ALEATORIO
+═════════════════════════════════════════════════════════════════
+  ventana=2  |  filas entrada=85  |  fechas resultado=10
+
+  Primeras 10 fechas:
+     fecha esp_cliente obt_cliente  esp_suma  obt_suma   ok
+2023-06-14         C03         C03    226.10    226.10 True
+2023-06-15         C04         C04    355.23    355.23 True
+2023-06-16         C05         C05    485.07    485.07 True
+2023-06-17         C06         C06    327.05    327.05 True
+2023-06-18         C05         C05    478.22    478.22 True
+2023-06-19         C03         C03    286.36    286.36 True
+2023-06-20         C05         C05    399.69    399.69 True
+2023-06-21         C05         C05    507.17    507.17 True
+2023-06-22         C02         C02    296.62    296.62 True
+2023-06-23         C02         C02    357.91    357.91 True
+
+  ✓ Resultado idéntico al esperado: True
+═════════════════════════════════════════════════════════════════
+       fecha cliente  suma_movil
+0 2023-06-14     C03      226.10
+1 2023-06-15     C04      355.23
+2 2023-06-16     C05      485.07
+3 2023-06-17     C06      327.05
+4 2023-06-18     C05      478.22
+5 2023-06-19     C03      286.36
+6 2023-06-20     C05      399.69
+7 2023-06-21     C05      507.17
+8 2023-06-22     C02      296.62
+9 2023-06-23     C02      357.91
+
